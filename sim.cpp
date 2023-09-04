@@ -1,12 +1,15 @@
 #include<bits/stdc++.h>
 #include<windows.h>
 using namespace std;
-const int probcnt=10,ppl=21,len=270;
+const int probcnt=10,ppl=21,len=20;
 const int diff[probcnt+1]={0,800,1000,1300,1700,2200,2500,2800,3000,3400,3500};
 const int scoredist[probcnt+1]={0,4000,4500,5000,5500,6000,6500,7000,8000,9000,10000};
 int points[ppl+1][probcnt+1],namemaxlen;
+const int infoDelay=50,testDelay=200;
 double perc[ppl+1][probcnt+1];
-const bool delayed=false;
+const bool delayed=true;
+const string competitionname="20230904 Final(Really Short)";
+// string names[ppl+1]={"","GHJ","ZJY"};
 string names[ppl+1]={"","GHJ","SR","HYF","YYZ","ZJY","SK","YJ","NZ","LHX","FJZ","LZY","HSJ","CHK","WZF","ZJC","SKC","LKY","CZY","QQH","YLH","ZY"};
 mt19937 eng;
 /*
@@ -44,7 +47,7 @@ void printTime(int tm){
 	setFontColor(7,0);
 }
 void printer(int tm,int ppl,int tsk,string message){
-	if (delayed) Sleep(50);
+	if (delayed) Sleep(infoDelay);
 	printTime(tm);
 	if (message.find(" 100 分的解法")!=string::npos){
 		setFontColor(10,0);
@@ -59,7 +62,8 @@ void printer(int tm,int ppl,int tsk,string message){
 	cout<<" 完成了 "<<char('A'+tsk-1)<<" 题"<<message<<".\n";
 	setFontColor(7,0);
 }
-string genNewScore(int newscore,double wd){
+string genNewScore(int newscore,double &wd){
+	if (wd>100) wd=100;
 	wd=int(round(wd*100))/100.0;
 	string wd2=to_string(wd);
 	wd2.erase(wd2.size()-4,4);
@@ -152,7 +156,7 @@ int main(){
 				}
 			}
 			for (int k=1;k<=probcnt;k++){
-				if (ok2 || !points[j][k]) continue;
+				if (ok2 || !points[j][k] || perc[j][k]>99.9) continue;
 				if (randBetween(0,100,eng)<=0.50){
 					ok2=true;
 					double delta=(randBetween(0.0,100.0,eng)<=10.0? -20:7.5);
@@ -180,14 +184,14 @@ int main(){
 			}
 		}
 	}
-	printTime(300);
+	printTime(len);
 	cout<<setfill(' ');
 	cout<<"比赛已结束！现在开始最终测试。\n";
 	for (int i=1;i<=ppl;i++){
 		cout<<"开始测试选手 "<<setw(namemaxlen)<<names[i]<<" 的程序...\n";
 		for (int j=1;j<=probcnt;j++){
 			cout<<"开始测试 "<<char(j+'A'-1)<<" 题...";
-			if (delayed) Sleep(200);
+			if (delayed) Sleep(testDelay);
 			bool ji=randBetween(0,100,eng)>=perc[i][j];
 			if (ji && points[i][j]!=0){
 				double temp=randBetween(0,100,eng);
@@ -216,7 +220,7 @@ int main(){
 		competitor[i].score=points[i][0];
 	}
 	sort(competitor+1,competitor+ppl+1,[=](SortUsage a,SortUsage b){return a.score>b.score;});
-	cout<<"\n比赛结果:\n";
+	cout<<"\n"<<competitionname<<" 比赛结果:\n";
 	int totalscore=0;
 	for (int i=1;i<=probcnt;i++){
 		totalscore+=scoredist[i];
