@@ -1,16 +1,19 @@
 #include<bits/stdc++.h>
 #include<windows.h>
 using namespace std;
-const int probcnt=10,ppl=21,len=20;
-const int diff[probcnt+1]={0,800,1000,1300,1700,2200,2500,2800,3000,3400,3500};
-const int scoredist[probcnt+1]={0,4000,4500,5000,5500,6000,6500,7000,8000,9000,10000};
+const int probcnt=10; // 题总数
+const int ppl=2; // 总人数
+const int len=300; // 比赛长（单位：分）
+const int diff[probcnt+1]={0,800,1000,1300,1700,2200,2500,2800,3000,3400,3500}; // 难度分
+const int scoredist[probcnt+1]={0,4000,4500,5000,5500,6000,6500,7000,8000,9000,10000}; // Score Distribution
 int points[ppl+1][probcnt+1],namemaxlen;
-const int infoDelay=50,testDelay=200;
+const int infoDelay=100; // 比赛信息输出间隔
+const int testDelay=200; // Final Test 信息输出间隔
 double perc[ppl+1][probcnt+1];
-const bool delayed=true;
-const string competitionname="20230904 Final(Really Short)";
-// string names[ppl+1]={"","GHJ","ZJY"};
-string names[ppl+1]={"","GHJ","SR","HYF","YYZ","ZJY","SK","YJ","NZ","LHX","FJZ","LZY","HSJ","CHK","WZF","ZJC","SKC","LKY","CZY","QQH","YLH","ZY"};
+const bool delayed=true; // 输出延迟启用情况
+const string competitionname="20230904"; // 比赛名称
+string names[ppl+1]={"","GHJ","BP"};
+// string names[ppl+1]={"","GHJ","SR","HYF","YYZ","ZJY","SK","YJ","NZ","LHX","FJZ","LZY","HSJ","CHK","WZF","ZJC","SKC","LKY","CZY","QQH","YLH","ZY"};
 mt19937 eng;
 /*
 * every minute 0.15*1000/difficulty*probcnt/6%  100 pts
